@@ -27,10 +27,10 @@ if [ -z "$search" ]; then
 	open="true"
 
 	if [ -z "$MENU" ]; then
-		MENU='rofi -dmenu -L0'
+		MENU='rofi -dmenu -L 0'
 	fi
 
-	search="$($MENU -P 'Query:' -L 0)"
+	search="$($MENU -P 'Search query:')"
 	if [ -z "$search" ]; then
 		exit 0
 	fi

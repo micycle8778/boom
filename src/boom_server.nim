@@ -57,4 +57,3 @@ when isMainModule:
   let server = newAsyncHttpServer()
   echo "Server up"
   waitFor server.serve(Port(port), requestHandler, host)
-

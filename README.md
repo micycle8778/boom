@@ -26,7 +26,7 @@ exists.
 `boom [query]`
 
 When boom is run without a query, it will execute a dmenu-like executable, defined in the
-`MENU` environmental variable (`rofi -dmenu -L0` by default) to get the search query from
+`MENU` environmental variable (`rofi -dmenu -L 0` by default) to get the search query from
 the user. It then searches the query for the boom prefix, defined in the `BOOM_PREFIX`
 environmental variable (`@` by default). If it find this prefix, it tries to use the
 "boom" search engine. If it doesn't, it will use the default search engine.
