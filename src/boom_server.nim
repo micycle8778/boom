@@ -20,7 +20,9 @@ when isMainModule:
       if "q" in query:
         if query["q"].len != 1:
           await req.respond(Http400, "Multiple search queries found.")
-        let res = execCmdEx("boom " & decodeUrl(query["q"][0], false))
+        let search_query = query["q"][0].decodeUrl
+        var res = execCmdEx("boom " & search_query)
+        res.output = res.output.strip()
         case res.exitcode:
           of 0:
             if res.output == "":
@@ -29,13 +31,14 @@ when isMainModule:
             else:
               let headers = newHttpHeaders({"Location": res.output})
               await req.respond(Http302, "", headers)
-              stdout.write "Sent user to " & res.output
+              echo "Sent user to " & res.output
           of 1:
             await req.respond(Http500, res.output)
             echo "Config file error. (" & res.output & ")"
           of 2:
             await req.respond(Http400, res.output)
-            echo "Bang not found error. (" & res.output & ")"
+            echo "boom not found error. (" & res.output & ")"
+            echo "query was " & search_query
           else:
             await req.respond(Http500, "Unknown error occured.")
             echo "Unknown error."

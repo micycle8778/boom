@@ -1,6 +1,6 @@
 # Package
 
-version       = "1.0.0"
+version       = "1.0.1"
 author        = "Rainbow Asteroids"
 description   = "A REST server frontent for the boom shell script"
 license       = "AGPL-3.0-only"
