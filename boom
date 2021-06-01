@@ -1,0 +1,65 @@
+#!/bin/bash
+if [ -z "$XDG_CONFIG_HOME" ]; then
+	XDG_CONFIG_HOME="$HOME/.config"
+fi
+
+if [ -z "$BOOM_CONFIG_FILE" ]; then
+	BOOM_CONFIG_FILE="$XDG_CONFIG_HOME/boom"
+fi
+
+if ls "$BOOM_CONFIG_FILE" &>/dev/null; then
+	if ls "$BOOM_CONFIG_FILE" -ld | grep '^d' > /dev/null; then
+		>&2 echo 'Config file is a directory!'
+		exit 1
+	fi
+else
+	>&2 echo 'Config file does not exist!'
+	exit 1
+fi
+
+if [ -z "$BOOM_PREFIX" ]; then
+	BOOM_PREFIX='@'
+fi
+
+search="$(echo $@)"
+
+if [ -z "$search" ]; then
+	open="true"
+
+	if [ -z "$MENU" ]; then
+		MENU='rofi -dmenu -L0'
+	fi
+
+	search="$($MENU -P 'Query:' -L 0)"
+	if [ -z "$search" ]; then
+		exit 0
+	fi
+fi
+
+if echo "$search" | grep "^$BOOM_PREFIX" > /dev/null; then
+	chunk="$(echo "$search" | awk '{print $1}' | tr -d "$BOOM_PREFIX")"
+	config_line="$(grep "^$chunk\s" $BOOM_CONFIG_FILE)"
+	if [ -z "$config_line" ]; then
+		>&2 echo 'Boom not found.'
+		exit 2
+	fi
+	if [[ "$search" == "$BOOM_PREFIX$chunk" ]]; then
+		url="$(echo "$config_line" | awk '{print $3}')"
+	else
+		url="$(echo "$config_line" | awk '{print $2}')$(echo $search | cut -d ' ' -f2-)"
+	fi
+
+	if [ -z "$open" ]; then
+		echo "$url"
+	else
+		xdg-open "$url"
+	fi
+else
+	url="$(head -n 1 $BOOM_CONFIG_FILE)$search"
+	
+	if [ -z "$open" ]; then
+		echo "$url"
+	else
+		xdg-open "$url"
+	fi
+fi

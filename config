@@ -1,0 +1,8 @@
+https://searx.cedars.xyz/search?q=
+i https://searx.cedars.xyz/search?category_images=on&q= https://searx.cedars.xyz/?category_images=on
+f https://searx.cedars.xyz/search?category_files=on&q= https://searx.cedars.xyz/?category_files=on
+v https://searx.cedars.xyz/search?category_videos=on&q= https://searx.cedars.xyz/?category_videos=on
+g https://google.com/search?hl=en&q= https://google.com
+yt https://youtube.com/results?search_query= https://youtube.com
+w https://wikipedia.org/w/index.php?search= https://wikipedia.org
+git https://github.com/search?q= https://github.com
